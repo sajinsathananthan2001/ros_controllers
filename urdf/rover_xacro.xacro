@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_name">
+
+    <!-- property's   -->
+    <xacro:property name="base_width" value="0.4" />
+    <xacro:property name="base_length" value="0.7" />
+    <xacro:property name="base_height" value="0.1" />
+    <xacro:property name="wheel_radius" value="0.1" />
+    <xacro:property name="wheel_length" value="0.1" />
+
+
+
+    <!-- Color materials -->
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <!-- Base link -->
+
+    <link name="base_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+            <material name="blur"/>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Left wheel xacro macro -->
+    <xacro:macro name="left_wheels" params="prefix reflect">
+        <link name="${prefix}_left_wheel_link">
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="0.2" length="0.2"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}_left_wheel_join" type="continuous">
+            <origin xyz="${0.2*reflect} 0.25 0.0" rpy="1.5707963 0.0 0.0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_left_wheel_link"/>
+            <axis xyz="0.0 0.0 1"/>
+        </joint>
+    </xacro:macro>
+
+
+    <!-- Right wheel xacro macro -->
+    <xacro:macro name="right_wheels" params="prefix reflect">
+        <link name="${prefix}_right_wheel_link">
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <cylinder radius="0.2" length="0.2"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}_right_wheel_join" type="continuous">
+            <origin xyz="${0.2*reflect} -0.25 0.0" rpy="1.5707963 0.0 0.0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_right_wheel_link"/>
+            <axis xyz="0.0 0.0 1"/>
+        </joint>
+    </xacro:macro>
+
+    <!-- Left front and back wheels -->
+    <xacro:left_wheels prefix="front" reflect="1" />
+    <xacro:left_wheels prefix="back" reflect="-1" />
+
+    <!-- Right front and back wheels -->
+    <xacro:right_wheels prefix="front" reflect="1" />
+    <xacro:right_wheels prefix="back" reflect="-1" />
+
+
+
+
+
+
+</robot>

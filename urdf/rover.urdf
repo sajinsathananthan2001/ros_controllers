@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<robot name="rover">
+
+    <link name="base_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.7 0.4 0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 0.0 0.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.7 0.4 0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+
+    <!-- Front left wheel -->
+
+    <link name="fl_wheel_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="fl_wheel_join" type="continuous">
+        <origin xyz="0.2 0.25 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="fl_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    
+    </joint>
+
+    <!-- Front right wheel -->
+
+    <link name="fr_wheel_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="fr_wheel_join" type="continuous">
+        <origin xyz="0.2 -0.25 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="fr_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    
+    </joint>
+
+    <!-- Back left wheel -->
+
+    <link name="bl_wheel_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="bl_wheel_join" type="continuous">
+        <origin xyz="-0.2 0.25 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="bl_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    
+    </joint>
+
+    <!-- Back right wheel -->
+
+    <link name="br_wheel_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+            <material name="">
+                <color rgba="1.0 1.0 1.0 1.0"/>
+                <texture filename=""/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707963 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.1" length="0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="br_wheel_join" type="continuous">
+        <origin xyz="-0.2 -0.25 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="br_wheel_link"/>
+        <axis xyz="0 1 0"/>
+    
+    </joint>
+
+    
+</robot>

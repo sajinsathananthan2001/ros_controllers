@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover">
+
+    <!-- property's   -->
+    <xacro:property name="base_width" value="0.4" />
+    <xacro:property name="base_length" value="0.7" />
+    <xacro:property name="base_height" value="0.1" />
+    <xacro:property name="wheel_radius" value="0.1" />
+    <xacro:property name="wheel_length" value="0.1" />
+
+
+    <xacro:macro name="default_inertial" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </xacro:macro>
+
+
+
+    <!-- Color materials -->
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <!-- Base link -->
+
+    <link name="base_link">
+        <visual name="">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+            <material name="blur"/>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}"/>
+            </geometry>
+        </collision>
+        <xacro:default_inertial mass="5"/>
+    </link>
+
+    <!-- Left wheel xacro macro -->
+    <xacro:macro name="left_wheels" params="prefix reflect">
+        <link name="${prefix}_left_wheel_link">
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="[ 1.5707963 0.0 0.0"/>
+                <geometry>
+                    <!-- <mesh filename="package://my_robot_controller/meshes/right_tire.stl" scale="0.003 0.003 0.003"/> -->
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="[ 1.5707963 0.0 0.0"/>
+                <geometry>
+                    <!-- <mesh filename="package://my_robot_controller/meshes/right_tire.stl" scale="0.003 0.003 0.003"/> -->
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="1"/>
+        </link>
+
+        <joint name="${prefix}_left_wheel_joint" type="continuous">
+            <origin xyz="${0.2*reflect} 0.25 0.0" rpy="0 0.0 0.0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_left_wheel_link"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+
+        <!-- This block provides the simulator (Gazebo) with information on a few additional
+        physical properties. See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
+        <gazebo reference="${prefix}_left_wheel_link">
+            <mu1 value="200.0"/>
+            <mu2 value="100.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+
+        <!-- This block connects the wheel joint to an actuator (motor), which informs both
+        simulation and visualization of the robot -->
+        <transmission name="${prefix}_left_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${prefix}_left_wheel_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+            <joint name="${prefix}_left_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+    
+
+    </xacro:macro>
+
+
+    <!-- Right wheel xacro macro -->
+    <xacro:macro name="right_wheels" params="prefix reflect">
+        <link name="${prefix}_right_wheel_link">
+            <visual name="">
+                <origin xyz="0.0 0.0 0.0" rpy="[ 1.5707963 0.0 0.0"/>
+                <geometry>
+                    <!-- <mesh filename="package://my_robot_controller/meshes/left_tire.stl" scale="0.003 0.003 0.003"/> -->
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="[ 1.5707963 0.0 0.0"/>
+                <geometry>
+                    <!-- <mesh filename="package://my_robot_controller/meshes/left_tire.stl" scale="0.003 0.003 0.003"/> -->
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+                </geometry>
+            </collision>
+            <xacro:default_inertial mass="1"/>
+        </link>
+
+        <joint name="${prefix}_right_wheel_joint" type="continuous">
+            <origin xyz="${0.2*reflect} -0.25 0.0" rpy="0 0.0 0.0"/>
+            <parent link="base_link"/>
+            <child link="${prefix}_right_wheel_link"/>
+            <axis xyz="1 0 0"/>
+        </joint>
+
+        <!-- This block provides the simulator (Gazebo) with information on a few additional
+        physical properties. See http://gazebosim.org/tutorials/?tut=ros_urdf for more-->
+        <gazebo reference="${prefix}_right_wheel_link">
+            <mu1 value="200.0"/>
+            <mu2 value="100.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+
+        <!-- This block connects the wheel joint to an actuator (motor), which informs both
+        simulation and visualization of the robot -->
+        <transmission name="${prefix}_right_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${prefix}_right_wheel_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+            <joint name="${prefix}_right_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+
+    </xacro:macro>
+
+    <!-- Left front and back wheels -->
+    <xacro:left_wheels prefix="front" reflect="1" />
+    <xacro:left_wheels prefix="back" reflect="-1" />
+
+    <!-- Right front and back wheels -->
+    <xacro:right_wheels prefix="front" reflect="1" />
+    <xacro:right_wheels prefix="back" reflect="-1" />
+
+
+    <!-- Gazebo plugin for ROS Control -->
+    <gazebo>
+
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+
+    </gazebo>
+
+
+
+
+
+
+</robot>

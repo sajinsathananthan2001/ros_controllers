@@ -1,11 +1,14 @@
 <launch>
+  <!-- arguments -->
   <arg name="model" default="$(find my_robot_controller)/urdf/rover_with_mesh.urdf.xacro"/>
   <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz_config/rviz_config.rviz" />
 
-  <include file="$(find my_robot_controller)/launch/gazebo.launch">
+  <!-- gazebo -->
+  <include file="$(find mSimpleTransmissiony_robot_controller)/launch/gazebo.launch">
     <arg name="model" value="$(arg model)" />
   </include>
 
+  <!-- rviz -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
 
   <rosparam command="load"
@@ -16,10 +19,11 @@
             file="$(find my_robot_controller)/config/diffdrive.yaml"
             ns="rover_diff_drive_controller" />
 
-  <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+  <node name="rover_controller_spawner" pkg="controller_manager" type="spawner"
     args="rover_joint_state_controller
           rover_diff_drive_controller"/>
 
+  <!-- rqt joystick -->
   <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
     <param name="default_topic" value="/rover_diff_drive_controller/cmd_vel"/>
   </node>

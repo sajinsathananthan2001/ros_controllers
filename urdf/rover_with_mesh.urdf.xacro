@@ -47,7 +47,7 @@
                 <box size="${base_length} ${base_width} ${base_height}"/>
             </geometry>
         </collision>
-        <xacro:default_inertial mass="10"/>
+        <xacro:default_inertial mass="100"/>
     </link>
 
     <!-- Left wheel xacro macro -->
@@ -68,7 +68,7 @@
                     <!-- <cylinder radius="${wheel_radius}" length="${wheel_length}"/> -->
                 </geometry>
             </collision>
-            <xacro:default_inertial mass="0.5"/>
+            <xacro:default_inertial mass="10"/>
         </link>
 
         <joint name="${prefix}_left_wheel_joint" type="continuous">
@@ -123,7 +123,7 @@
                     <!-- <cylinder radius="${wheel_radius}" length="${wheel_length}"/> -->
                 </geometry>
             </collision>
-            <xacro:default_inertial mass="0.5"/>
+            <xacro:default_inertial mass="10"/>
         </link>
 
         <joint name="${prefix}_right_wheel_joint" type="continuous">

@@ -1,0 +1,25 @@
+<launch>
+  <arg name="model" default="$(find my_robot_controller)/urdf/arm_robot.urdf"/>
+  <arg name="rvizconfig" default="$(find my_robot_controller)/rviz_config/urdf.rviz" />
+
+  <include file="$(find my_robot_controller)/launch/gazebo.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+  <rosparam command="load"
+            file="$(find my_robot_controller)/config/joints.yaml"
+            ns="armbot_joint_state_controller" />
+  <rosparam command="load"
+            file="$(find my_robot_controller)/config/head.yaml"
+            ns="armbot_head_controller" />
+  <rosparam command="load"
+            file="$(find my_robot_controller)/config/hand.yaml"
+            ns="armbot_hand_controller" />
+
+  <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+    args="armbot_joint_state_controller
+          armbot_head_controller
+          armbot_hand_controller"/>
+</launch>

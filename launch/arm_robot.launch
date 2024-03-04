@@ -18,7 +18,7 @@
             file="$(find my_robot_controller)/config/hand.yaml"
             ns="armbot_hand_controller" />
 
-  <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+  <node name="armbot_controller_spawner" pkg="controller_manager" type="spawner"
     args="armbot_joint_state_controller
           armbot_head_controller
           armbot_hand_controller"/>
